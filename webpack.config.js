@@ -27,7 +27,7 @@ module.exports = {
                 loader: ExtractTextPlugin.extract({
                     use : [{  
                         loader : "css-loader",
-                        options : {url : false, minimize: true}
+                        options : {minimize: true}
                     },
                            "autoprefixer"],
                     fallback: "style-loader"
@@ -39,7 +39,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use : [{  
                         loader : "css-loader",
-                        options : {url:false, minimize: true}
+                        options : {minimize: true}
                     },
                            "less-loader"],
                     fallback: "style-loader"
@@ -48,18 +48,23 @@ module.exports = {
             },
             {
                 test: /\.(jpg|png|gif)$/,
-                loader: "file-loader",
+                loader: "url-loader",
                 options: {
                     name: './images/[name].[ext]'
                 },
                 exclude: /node_modules/
             },
-            {
-                test: /\.(svg|eot|ttf|woff|woff2)$/,
-                loader: "file-loader",
-                options: {
-                    name: './fonts/[name].[ext]'
-                }
+            { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+             loader: "url-loader?limit=10000&mimetype=application/font-woff",
+             options: {
+                 name: './fonts/[name].[ext]'
+             }
+            },
+            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+             loader: "url-loader",
+             options: {
+                 name: './fonts/[name].[ext]'
+             }
             }
         ]
     },
